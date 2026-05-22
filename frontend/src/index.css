@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-void-900 text-slate-100 font-sans;
+    background-image: radial-gradient(at 40% 20%, hsla(240, 100%, 74%, 0.06) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.05) 0px, transparent 50%),
+      radial-gradient(at 0% 80%, hsla(355, 80%, 60%, 0.04) 0px, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-void-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-void-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-indigo-600;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-card border border-surface-border rounded-2xl backdrop-blur-sm;
+  }
+
+  .glass-modal {
+    @apply bg-surface-elevated border border-surface-border rounded-2xl backdrop-blur-md;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500
+    text-white font-medium rounded-xl px-5 py-2.5 transition-all duration-200
+    hover:shadow-glow-indigo hover:-translate-y-0.5 active:translate-y-0
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply bg-void-700 hover:bg-void-600 text-slate-300 hover:text-white
+    font-medium rounded-xl px-5 py-2.5 transition-all duration-200
+    border border-surface-border hover:border-indigo-500/30
+    disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300
+    font-medium rounded-xl px-4 py-2 transition-all duration-200
+    border border-rose-500/20 hover:border-rose-500/40;
+  }
+
+  .input-field {
+    @apply w-full bg-void-800 border border-surface-border rounded-xl px-4 py-3
+    text-slate-100 placeholder-slate-500 outline-none
+    focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30
+    transition-all duration-200 text-sm;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-300 mb-1.5;
+  }
+
+  .skeleton {
+    @apply bg-void-700 rounded-xl animate-pulse;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 25%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.03) 75%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+}
+
+/* Custom toast styles */
+.toast-container {
+  font-family: 'DM Sans', sans-serif !important;
+}
