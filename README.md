@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TaskFlow — Full-Stack Task Management App
 
 A production-ready task management application built with React, Node.js, Express, and MongoDB Atlas. Features a premium dark-mode UI with glassmorphism design, full JWT authentication, and complete CRUD functionality.
@@ -261,3 +262,7 @@ The app will be at `http://localhost:5173`
 | Variable | Required | Description |
 |---|---|---|
 | `VITE_API_URL` | **Yes** | Backend API base URL |
+=======
+# Task-flow
+TaskFlow is a full‑stack web application that enables users to securely create, update, and track tasks with real‑time collaboration and responsive design.
+>>>>>>> bf37b43e88d8a2097b8406dfaa4d6b0becfa5a49
