@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { X, Loader2 } from 'lucide-react';
+import { useSocket } from '../context/SocketContext';
 
 const initialForm = {
   title: '',
@@ -10,9 +11,23 @@ const initialForm = {
 };
 
 const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
+  const { sendTypingStatus } = useSocket();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const titleRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
+
+  // Clean up typing status when modal closes or component unmounts
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      if (task && isOpen) {
+        sendTypingStatus(task._id, false);
+      }
+    };
+  }, [isOpen, task, sendTypingStatus]);
 
   useEffect(() => {
     if (isOpen) {
@@ -53,6 +68,17 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
+
+    // Emit typing status if editing an existing task
+    if (task) {
+      sendTypingStatus(task._id, true);
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      typingTimeoutRef.current = setTimeout(() => {
+        sendTypingStatus(task._id, false);
+      }, 2000);
+    }
   };
 
   const handleBackdrop = (e) => {
@@ -70,16 +96,17 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-surface-border">
           <div>
-            <h2 className="font-display font-semibold text-lg text-white">
+            <h2 className="font-display font-semibold text-lg" style={{color: 'var(--text-primary)'}}>
               {task ? 'Edit Task' : 'New Task'}
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs mt-0.5" style={{color: 'var(--text-muted)'}}>
               {task ? 'Update task details below' : 'Fill in the details for your new task'}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-500 hover:text-white hover:bg-void-700 transition-all"
+            className="p-2 rounded-xl transition-all"
+            style={{color: 'var(--text-muted)'}}
           >
             <X size={18} />
           </button>

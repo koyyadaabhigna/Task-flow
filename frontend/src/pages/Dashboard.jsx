@@ -109,10 +109,10 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="font-display font-bold text-2xl sm:text-3xl text-white">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl" style={{color: 'var(--text-primary)'}}>
             {greeting}, <span className="text-indigo-400">{user?.name?.split(' ')[0]}</span> 👋
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-sm mt-1" style={{color: 'var(--text-secondary)'}}>
             You have{' '}
             <span className="text-cyan-400 font-semibold">{stats.pending}</span>{' '}
             pending and{' '}

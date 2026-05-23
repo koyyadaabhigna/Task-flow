@@ -43,6 +43,13 @@ const taskSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+
+    projectName: {
+      type: String,
+      required: [true, 'Project name is required'],
+      trim: true,
+      index: true,
+    },
   },
   {
     timestamps: true,

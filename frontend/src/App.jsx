@@ -1,8 +1,12 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -12,12 +16,12 @@ const AppRoutes = () => {
 
   return (
     <>
-      <Navbar />
+      {user && <Navbar />}
       <main>
         <Routes>
           <Route
             path="/"
-            element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />}
+            element={user ? <Navigate to="/dashboard" replace /> : <Landing />}
           />
           <Route
             path="/login"
@@ -42,35 +46,57 @@ const AppRoutes = () => {
   );
 };
 
+const HashRedirect = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const { hash } = window.location;
+    if (hash.startsWith('#/')) {
+      const path = hash.slice(1);
+      if (path !== window.location.pathname) {
+        navigate(path, { replace: true });
+      }
+    }
+  }, [navigate]);
+
+  return null;
+};
+
 const App = () => {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#141428',
-              color: '#e2e8f0',
-              border: '1px solid rgba(99, 102, 241, 0.2)',
-              borderRadius: '12px',
-              fontSize: '14px',
-              fontFamily: 'DM Sans, sans-serif',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-            },
-            success: {
-              iconTheme: { primary: '#34d399', secondary: '#141428' },
-            },
-            error: {
-              iconTheme: { primary: '#fb7185', secondary: '#141428' },
-            },
-          }}
-        />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <SocketProvider>
+            <HashRedirect />
+            <AppRoutes />
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: 'var(--bg-card)',
+                  color: 'var(--text-primary)',
+                  border: `1px solid var(--border-color)`,
+                  borderRadius: '12px',
+                  fontSize: '14px',
+                  fontFamily: 'DM Sans, sans-serif',
+                  boxShadow: 'var(--shadow-card)',
+                },
+                success: {
+                  iconTheme: { primary: '#34d399', secondary: 'var(--bg-card)' },
+                },
+                error: {
+                  iconTheme: { primary: '#fb7185', secondary: 'var(--bg-card)' },
+                },
+              }}
+            />
+          </SocketProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
 
 export default App;
+

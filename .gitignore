@@ -3,7 +3,8 @@ node_modules/
 
 # Environment variables
 .env
-
+# readme
+README.md
 # Build files
 dist/
 build/

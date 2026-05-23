@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TaskFlow - Modern task management SaaS with smart team collaboration and real-time productivity tracking." />
+    <title>TaskFlow | Premium Task Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: #07070f;
+        color: #e2e8f0;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .glass-card {
+        background: rgba(15, 15, 30, 0.72);
+        border: 1px solid rgba(99, 102, 241, 0.16);
+        backdrop-filter: blur(28px);
+      }
+
+      .glow-button {
+        box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.35);
+        transition: box-shadow 0.35s ease, transform 0.2s ease;
+      }
+
+      .glow-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 30px rgba(34, 211, 238, 0.35);
+      }
+
+      .section-fade {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .section-fade.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.25), transparent 24%),
+          radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.18), transparent 22%);
+        pointer-events: none;
+      }
+
+      .counter {
+        font-variation-settings: 'wght' 700;
+      }
+
+      .gradient-ring {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(34, 211, 238, 0.9));
+      }
+
+      .feature-icon,
+      .testimonial-avatar {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      }
+    </style>
+  </head>
+  <body class="relative overflow-x-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.22),_transparent_16%),radial-gradient(circle_at_bottom_right,_rgba(34,211,238,0.2),_transparent_18%)] pointer-events-none"></div>
+
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+        <a href="#home" class="flex items-center gap-3 text-white">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-lg font-bold text-slate-950 shadow-glow-indigo">
+            TF
+          </div>
+          <span class="text-lg font-semibold tracking-tight">TaskFlow</span>
+        </a>
+
+        <nav class="hidden items-center gap-8 text-slate-300 lg:flex">
+          <a href="#features" class="transition hover:text-white">Features</a>
+          <a href="#pricing" class="transition hover:text-white">Pricing</a>
+          <a href="#about" class="transition hover:text-white">About</a>
+        </nav>
+
+        <div class="hidden items-center gap-3 lg:flex">
+          <a href="http://localhost:5173/login" class="rounded-full border border-slate-700 px-5 py-2 text-sm font-semibold text-slate-200 transition hover:border-cyan-300 hover:text-white">Sign In</a>
+          <a href="http://localhost:5173/register" class="glow-button rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-6 py-2 text-sm font-semibold text-slate-950 transition">Get Started Free</a>
+        </div>
+
+        <button id="menu-toggle" class="inline-flex items-center justify-center rounded-full border border-slate-700 p-3 text-slate-300 transition hover:border-cyan-300 hover:text-white lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="home" class="relative overflow-hidden">
+      <section class="relative overflow-hidden px-6 py-16 lg:px-8">
+        <div class="hero-glow"></div>
+        <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div class="space-y-8">
+            <div class="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-white/5 px-4 py-2 text-sm text-cyan-200 shadow-[0_0_40px_rgba(34,211,238,0.08)]">
+              <span class="inline-flex h-2 w-2 rounded-full bg-cyan-400"></span>
+              Built for modern teams and fast-moving product squads
+            </div>
+
+            <div class="space-y-6">
+              <h1 class="max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+                Organize Your Work, <span class="bg-gradient-to-r from-indigo-400 to-cyan-300 bg-clip-text text-transparent">Amplify Your Focus</span>
+              </h1>
+              <p class="max-w-2xl text-lg leading-8 text-slate-400 sm:text-xl">
+                TaskFlow gives your team a premium workspace for task planning, real-time progress updates, and priority-driven execution—all in one sleek, secure dashboard.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <a href="http://localhost:5173/register" class="glow-button inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-8 py-4 text-base font-semibold text-slate-950 transition">
+                Get Started Free
+              </a>
+              <a href="http://localhost:5173/register" class="inline-flex items-center justify-center rounded-full border border-slate-700 bg-white/5 px-8 py-4 text-base font-semibold text-slate-100 transition hover:border-cyan-300 hover:text-white">
+                Watch Demo
+              </a>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-3">
+              <div class="rounded-3xl border border-white/10 bg-slate-950/70 px-5 py-4 text-center">
+                <p class="text-3xl font-semibold text-cyan-300">10K+</p>
+                <p class="mt-2 text-sm text-slate-400">Active users</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-slate-950/70 px-5 py-4 text-center">
+                <p class="text-3xl font-semibold text-indigo-400">50K+</p>
+                <p class="mt-2 text-sm text-slate-400">Tasks completed</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-slate-950/70 px-5 py-4 text-center">
+                <p class="text-3xl font-semibold text-emerald-400">99.9%</p>
+                <p class="mt-2 text-sm text-slate-400">Uptime</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative hidden overflow-hidden rounded-[2rem] border border-slate-700/80 bg-slate-950/80 p-8 shadow-[0_40px_120px_rgba(15,15,30,0.5)] lg:block">
+            <div class="absolute -left-10 top-10 h-32 w-32 rounded-full bg-indigo-500/10 blur-3xl"></div>
+            <div class="absolute -right-8 bottom-16 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl"></div>
+            <div class="glass-card relative overflow-hidden rounded-[2rem] border border-slate-700/70 bg-slate-950/90 p-6">
+              <div class="mb-6 flex items-center justify-between text-slate-300">
+                <div>
+                  <p class="text-xs uppercase tracking-[0.35em] text-cyan-300/80">TaskFlow Dashboard</p>
+                  <p class="text-sm text-slate-400">Team workspace</p>
+                </div>
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-500/10 text-cyan-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M5 6h14M5 18h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="mb-6 h-[320px] overflow-hidden rounded-[1.75rem] border border-slate-700/70 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-5 shadow-[inset_0_0_50px_rgba(0,0,0,0.25)]">
+                <div class="mb-6 flex items-center justify-between text-slate-300">
+                  <div class="space-y-1">
+                    <p class="text-sm text-slate-200">Marketing Roadmap</p>
+                    <p class="text-xs text-slate-500">Real-time team progress</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-900/80 px-3 py-2 text-xs text-slate-400">Live</div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-center gap-4">
+                    <span class="h-4 w-16 rounded-full bg-cyan-400/40"></span>
+                    <span class="h-3 w-24 rounded-full bg-slate-700"></span>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <span class="h-4 w-24 rounded-full bg-indigo-500/40"></span>
+                    <span class="h-3 w-12 rounded-full bg-slate-700"></span>
+                  </div>
+                </div>
+                <div class="mt-8 grid gap-3">
+                  <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-3 text-sm text-slate-300">
+                    <span>Design review</span>
+                    <span class="text-cyan-300">In progress</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-3 text-sm text-slate-300">
+                    <span>Launch sprint</span>
+                    <span class="text-indigo-300">2 days</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 px-4 py-3 text-sm text-slate-300">
+                    <span>Team feedback</span>
+                    <span class="text-emerald-300">Complete</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grid gap-4 text-slate-300">
+                <div class="flex items-center justify-between">
+                  <span>Tasks</span>
+                  <span class="text-white">38</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span>Projects</span>
+                  <span class="text-white">12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section-fade px-6 py-20 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-12 max-w-2xl">
+            <span class="text-xs uppercase tracking-[0.35em] text-cyan-300">Packed with premium tools</span>
+            <h2 class="mt-4 text-4xl font-semibold text-white sm:text-5xl">Everything your team needs to stay ahead.</h2>
+            <p class="mt-4 text-slate-400">Six powerful modules designed to simplify task management and keep your entire organization aligned.</p>
+          </div>
+
+          <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-indigo-500/10 text-indigo-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Smart Task Organization</h3>
+              <p class="mt-3 text-slate-400">Group, filter, and automate work with intelligent task workflows and visual boards.</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-cyan-400/10 text-cyan-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V10" stroke-linecap="round"/><path d="M5 12h14" stroke-linecap="round"/><path d="M18 6l-6 6-2-2-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Priority Management</h3>
+              <p class="mt-3 text-slate-400">Assign priorities, stay focused on what matters, and remove decision fatigue from every day.</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-indigo-500/10 text-indigo-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14" stroke-linecap="round"/><path d="M12 5v14" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Real-time Updates</h3>
+              <p class="mt-3 text-slate-400">See project changes instantly with live activity feeds and team-sync notifications.</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-cyan-400/10 text-cyan-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16" stroke-linecap="round"/><path d="M4 12h16" stroke-linecap="round"/><path d="M4 18h16" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Team Collaboration</h3>
+              <p class="mt-3 text-slate-400">Share updates, assign tasks, and coordinate every deliverable from one central hub.</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-indigo-500/10 text-indigo-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4h12M6 12h12M6 20h12" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Progress Tracking</h3>
+              <p class="mt-3 text-slate-400">Track milestones, view burn down charts, and measure progress at a glance.</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-cyan-400/10 text-cyan-300 feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white">Secure & Private</h3>
+              <p class="mt-3 text-slate-400">Enterprise-grade security, encrypted data, and privacy controls for your team.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section-fade border-t border-slate-800/80 px-6 py-20 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="grid gap-12 lg:grid-cols-3">
+            <div class="rounded-[2rem] bg-slate-950/80 p-10 text-white shadow-[0_30px_90px_rgba(0,0,0,0.3)]">
+              <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">How it works</p>
+              <h2 class="mt-6 text-4xl font-semibold">From signup to streamlined workflows in minutes.</h2>
+              <p class="mt-4 text-slate-400">A simple, polished experience designed to help busy teams move faster without missing a beat.</p>
+            </div>
+            <div class="space-y-6">
+              <div class="glass-card rounded-[2rem] p-8">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-indigo-500/10 text-indigo-300">1</div>
+                <h3 class="text-xl font-semibold text-white">Create an account</h3>
+                <p class="mt-3 text-slate-400">Sign up in seconds and launch your workspace with zero setup friction.</p>
+              </div>
+              <div class="glass-card rounded-[2rem] p-8">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-cyan-400/10 text-cyan-300">2</div>
+                <h3 class="text-xl font-semibold text-white">Add your tasks</h3>
+                <p class="mt-3 text-slate-400">Organize every project, deadline, and priority in one flexible task board.</p>
+              </div>
+              <div class="glass-card rounded-[2rem] p-8">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-rose-400/10 text-rose-300">3</div>
+                <h3 class="text-xl font-semibold text-white">Stay organized</h3>
+                <p class="mt-3 text-slate-400">Track team progress, collaborate instantly, and keep deliverables on schedule.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-fade px-6 py-20 lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-6 rounded-[2rem] border border-slate-700/80 bg-slate-950/80 p-8 shadow-[0_30px_90px_rgba(0,0,0,0.28)] lg:grid-cols-4">
+          <div class="space-y-3">
+            <p class="text-3xl font-semibold text-cyan-300 counter" data-target="10000">0</p>
+            <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Users</p>
+          </div>
+          <div class="space-y-3">
+            <p class="text-3xl font-semibold text-indigo-300 counter" data-target="50000">0</p>
+            <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Tasks Completed</p>
+          </div>
+          <div class="space-y-3">
+            <p class="text-3xl font-semibold text-emerald-300 counter" data-target="99.9">0</p>
+            <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Uptime</p>
+          </div>
+          <div class="space-y-3">
+            <p class="text-3xl font-semibold text-rose-300 counter" data-target="4.9">0</p>
+            <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Rating</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-fade px-6 py-20 lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
+          <div class="glass-card rounded-[2rem] p-8">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-3xl bg-slate-900 text-cyan-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+            </div>
+            <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">Trusted</p>
+            <h3 class="mt-4 text-2xl font-semibold text-white">Modern workflow intelligence</h3>
+            <p class="mt-3 text-slate-400">Designed for teams that demand speed, clarity, and beautiful productivity tools.</p>
+          </div>
+          <div class="glass-card rounded-[2rem] p-8 bg-gradient-to-br from-indigo-500/15 via-slate-950 to-cyan-500/10">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-3xl bg-indigo-500/20 text-cyan-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9" stroke-linecap="round"/><path d="M3 4h18" stroke-linecap="round"/><path d="M3 12h18" stroke-linecap="round"/><path d="M3 16h9" stroke-linecap="round"/></svg>
+            </div>
+            <p class="text-sm uppercase tracking-[0.35em] text-rose-300">Customer love</p>
+            <h3 class="mt-4 text-2xl font-semibold text-white">Sleek teamwork without the clutter</h3>
+            <p class="mt-3 text-slate-400">A polished experience that feels premium from the moment your team signs in.</p>
+          </div>
+          <div class="glass-card rounded-[2rem] p-8">
+            <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-3xl bg-cyan-400/20 text-cyan-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a9 9 0 100 18 9 9 0 000-18z" stroke-linecap="round"/><path d="M9.5 12.5l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="text-sm uppercase tracking-[0.35em] text-indigo-300">Built secure</p>
+            <h3 class="mt-4 text-2xl font-semibold text-white">Privacy and control</h3>
+            <p class="mt-3 text-slate-400">Keep your data protected with encrypted workspaces and role-based access.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-fade bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.14),_transparent_22%),radial-gradient(circle_at_bottom,_rgba(34,211,238,0.12),_transparent_20%)] px-6 py-20 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <h2 class="text-center text-4xl font-semibold text-white sm:text-5xl">What customers are saying</h2>
+          <div class="mt-12 grid gap-6 md:grid-cols-3">
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 flex items-center gap-4">
+                <div class="testimonial-avatar flex h-14 w-14 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-300">A</div>
+                <div>
+                  <p class="font-semibold text-white">Avery Morgan</p>
+                  <p class="text-sm text-slate-400">Product Lead</p>
+                </div>
+              </div>
+              <p class="text-slate-300">“TaskFlow turned our workflow into something truly effortless. The real-time updates and priority views keep the whole team in sync.”</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8 border border-indigo-500/20 bg-gradient-to-br from-slate-950/80 to-cyan-950/70">
+              <div class="mb-6 flex items-center gap-4">
+                <div class="testimonial-avatar flex h-14 w-14 items-center justify-center rounded-full bg-cyan-400/15 text-cyan-300">J</div>
+                <div>
+                  <p class="font-semibold text-white">Jordan Lee</p>
+                  <p class="text-sm text-slate-400">Operations Manager</p>
+                </div>
+              </div>
+              <p class="text-slate-300">“The interface feels premium and the team collaboration tools are fantastic. We launched faster and never lost track of priorities.”</p>
+            </article>
+            <article class="glass-card rounded-[2rem] p-8">
+              <div class="mb-6 flex items-center gap-4">
+                <div class="testimonial-avatar flex h-14 w-14 items-center justify-center rounded-full bg-rose-400/15 text-rose-300">S</div>
+                <div>
+                  <p class="font-semibold text-white">Sofia Grant</p>
+                  <p class="text-sm text-slate-400">Marketing Director</p>
+                </div>
+              </div>
+              <p class="text-slate-300">“TaskFlow helps us cut through the noise. The dashboard preview and task automation save us hours every week.”</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="section-fade px-6 py-20 lg:px-8">
+        <div class="mx-auto max-w-7xl text-center">
+          <span class="text-xs uppercase tracking-[0.35em] text-cyan-300">Pricing plans</span>
+          <h2 class="mt-4 text-4xl font-semibold text-white sm:text-5xl">Simple pricing for every team.</h2>
+          <p class="mx-auto mt-4 max-w-2xl text-slate-400">Get unlimited users, collaboration features, and powerful insights with a plan that fits your growth.</p>
+        </div>
+
+        <div class="mt-12 grid gap-6 lg:grid-cols-3">
+          <article class="glass-card rounded-[2rem] p-8 text-slate-300">
+            <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">Free</p>
+            <h3 class="mt-6 text-3xl font-semibold text-white">$0</h3>
+            <p class="mt-2 text-sm text-slate-400">For individuals getting started</p>
+            <ul class="mt-8 space-y-4 text-slate-400">
+              <li>Up to 5 projects</li>
+              <li>Basic task boards</li>
+              <li>Team chat</li>
+            </ul>
+            <a href="http://localhost:5173/register" class="mt-10 inline-flex w-full items-center justify-center rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300 hover:bg-slate-900/90">Start Free</a>
+          </article>
+          <article class="relative overflow-hidden rounded-[2rem] border border-cyan-300 bg-gradient-to-br from-indigo-500/10 via-slate-950 to-cyan-400/10 p-8 text-slate-200 shadow-[0_40px_120px_rgba(34,211,238,0.12)]">
+            <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-cyan-300/15 to-transparent"></div>
+            <p class="text-sm uppercase tracking-[0.35em] text-cyan-200">Pro</p>
+            <h3 class="mt-6 text-3xl font-semibold text-white">$9<span class="text-base font-medium text-slate-400">/mo</span></h3>
+            <p class="mt-2 text-sm text-slate-300">Best for growing teams who need speed and visibility.</p>
+            <ul class="mt-8 space-y-4 text-slate-300">
+              <li>Unlimited projects</li>
+              <li>Priority workflows</li>
+              <li>Real-time sync</li>
+            </ul>
+            <a href="http://localhost:5173/register" class="mt-10 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:brightness-110">Choose Pro</a>
+          </article>
+          <article class="glass-card rounded-[2rem] p-8 text-slate-300">
+            <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">Team</p>
+            <h3 class="mt-6 text-3xl font-semibold text-white">$29<span class="text-base font-medium text-slate-400">/mo</span></h3>
+            <p class="mt-2 text-sm text-slate-400">Perfect for collaborative teams and full-scale execution.</p>
+            <ul class="mt-8 space-y-4 text-slate-400">
+              <li>Team permissions</li>
+              <li>Advanced reporting</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="http://localhost:5173/register" class="mt-10 inline-flex w-full items-center justify-center rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300 hover:bg-slate-900/90">Get Team</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-fade px-6 py-24 lg:px-8">
+        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 rounded-[2rem] border border-cyan-300/20 bg-gradient-to-r from-indigo-500/10 via-slate-950/90 to-cyan-500/10 p-10 text-center shadow-[0_40px_90px_rgba(34,211,238,0.12)] lg:flex-row lg:text-left">
+          <div>
+            <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">Start organizing today</p>
+            <h2 class="mt-4 text-4xl font-semibold text-white sm:text-5xl">Everything your team needs to ship faster and stay focused.</h2>
+          </div>
+          <div class="flex flex-col items-center gap-4 sm:flex-row">
+            <a href="http://localhost:5173/register" class="glow-button inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-8 py-4 text-base font-semibold text-slate-950 transition">Get Started Free</a>
+            <a href="http://localhost:5173/login" class="inline-flex items-center justify-center rounded-full border border-slate-700 bg-white/5 px-8 py-4 text-base font-semibold text-white transition hover:border-cyan-300 hover:text-white">Sign In</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-800/80 bg-slate-950/90 px-6 py-10 lg:px-8">
+      <div class="mx-auto flex max-w-7xl flex-col gap-10 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3 text-white">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-lg font-bold text-slate-950">
+            TF
+          </div>
+          <div>
+            <p class="font-semibold">TaskFlow</p>
+            <p class="text-sm text-slate-400">Premium task management for modern teams.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-6 text-sm text-slate-400">
+          <a href="#features" class="transition hover:text-white">Features</a>
+          <a href="#pricing" class="transition hover:text-white">Pricing</a>
+          <a href="#about" class="transition hover:text-white">About</a>
+        </div>
+      </div>
+      <p class="mt-10 text-center text-sm text-slate-500">© 2026 TaskFlow. Crafted for high-performing teams.</p>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.section-fade').forEach((section) => {
+          observer.observe(section);
+        });
+
+        const counters = document.querySelectorAll('.counter');
+        const counterObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              const target = parseFloat(counter.dataset.target);
+              const steps = 60;
+              const duration = 1200;
+              let current = 0;
+              const increment = target / steps;
+              const decimals = String(target).includes('.') ? 1 : 0;
+              const interval = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                  current = target;
+                  clearInterval(interval);
+                }
+                counter.textContent = target >= 1000 ? Math.round(current).toLocaleString() : current.toFixed(decimals);
+              }, duration / steps);
+              counterObserver.unobserve(counter);
+            }
+          });
+        }, { threshold: 0.3 });
+
+        counters.forEach((counter) => counterObserver.observe(counter));
+
+        const menuToggle = document.getElementById('menu-toggle');
+        let menuOpen = false;
+        menuToggle?.addEventListener('click', () => {
+          menuOpen = !menuOpen;
+          let nav = document.querySelector('nav .mobile-menu');
+          if (!nav) {
+            nav = document.createElement('div');
+            nav.className = 'mobile-menu absolute inset-x-6 top-20 z-40 rounded-3xl border border-slate-700/80 bg-slate-950/95 p-6 shadow-2xl backdrop-blur-xl lg:hidden';
+            nav.innerHTML = `
+              <div class="flex flex-col gap-4">
+                <a href="#features" class="text-slate-200 transition hover:text-white">Features</a>
+                <a href="#pricing" class="text-slate-200 transition hover:text-white">Pricing</a>
+                <a href="#about" class="text-slate-200 transition hover:text-white">About</a>
+                <a href="http://localhost:5173/login" class="rounded-full border border-slate-700 px-5 py-3 text-center text-slate-200 transition hover:border-cyan-300 hover:text-white">Login</a>
+                <a href="http://localhost:5173/register" class="glow-button rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-3 text-center font-semibold text-slate-950">Get Started Free</a>
+              </div>
+            `;
+            document.querySelector('header').appendChild(nav);
+          }
+
+          nav.style.display = menuOpen ? 'block' : 'none';
+        });
+      });
+    </script>
+  </body>
+</html>

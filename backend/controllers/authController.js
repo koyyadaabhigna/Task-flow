@@ -10,10 +10,10 @@ const generateToken = (id) => {
 const register = async (req, res, next) => {
   try {
     console.log('📝 Register attempt:', req.body);
-    const { name, email, password } = req.body;
+    const { name, email, password, projectName } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: 'All fields required' });
+    if (!name || !email || !password || !projectName) {
+      return res.status(400).json({ success: false, message: 'All fields required (name, email, password, projectName)' });
     }
     if (password.length < 6) {
       return res.status(400).json({ success: false, message: 'Password min 6 characters' });
@@ -28,6 +28,7 @@ const register = async (req, res, next) => {
       name: name.trim(),
       email: email.toLowerCase().trim(),
       password,
+      projectName: projectName.trim(),
     });
 
     console.log('✅ User created:', user.email);
@@ -37,7 +38,7 @@ const register = async (req, res, next) => {
       success: true,
       message: 'Account created successfully',
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, projectName: user.projectName },
     });
   } catch (err) {
     console.error('❌ Register error:', err.message);
@@ -72,7 +73,7 @@ const login = async (req, res) => {
     res.json({
       success: true,
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, projectName: user.projectName },
     });
   } catch (err) {
     console.error('❌ Login error:', err.message);

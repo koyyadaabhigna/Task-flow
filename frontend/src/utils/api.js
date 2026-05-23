@@ -8,12 +8,21 @@ const api = axios.create({
   timeout: 15000,
 });
 
+let apiSocketId = null;
+
+export const setApiSocketId = (id) => {
+  apiSocketId = id;
+};
+
 // Attach JWT to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('taskflow_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    if (apiSocketId) {
+      config.headers['X-Socket-ID'] = apiSocketId;
     }
     return config;
   },

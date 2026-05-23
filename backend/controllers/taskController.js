@@ -1,15 +1,37 @@
 const { validationResult } = require('express-validator');
 const Task = require('../models/Task');
+const { getIO } = require('../config/socket');
 
-// @desc    Get all tasks for logged-in user
+// Helper to emit socket events to the project's room, excluding the initiator socket if provided
+const emitToProject = (projectName, eventName, data, excludeSocketId = null) => {
+  try {
+    const io = getIO();
+    const roomName = `project_${projectName}`;
+
+    if (excludeSocketId) {
+      io.to(roomName).except(excludeSocketId).emit(eventName, data);
+    } else {
+      io.to(roomName).emit(eventName, data);
+    }
+
+    console.log(`📡 Emitted "${eventName}" to project room: ${roomName}`);
+  } catch (err) {
+    console.error(`❌ Failed to emit socket event ${eventName}:`, err.message);
+  }
+};
+
+// @desc    Get all tasks for logged-in user's project
 // @route   GET /api/tasks
 // @access  Private
 const getTasks = async (req, res, next) => {
   try {
     const { status, priority, search, sort = '-createdAt' } = req.query;
 
-    // Build filter query
-    const filter = { user: req.user._id };
+    // Build filter query with projectName
+    const filter = { 
+      user: req.user._id,
+      projectName: req.user.projectName,
+    };
 
     if (status && status !== 'all') {
       filter.status = status;
@@ -33,7 +55,7 @@ const getTasks = async (req, res, next) => {
     const tasks = await Task.find(filter).sort(sortField).lean();
 
     // Stats
-    const allTasks = await Task.find({ user: req.user._id }).lean();
+    const allTasks = await Task.find({ user: req.user._id, projectName: req.user.projectName }).lean();
     const stats = {
       total: allTasks.length,
       pending: allTasks.filter((t) => t.status === 'pending').length,
@@ -74,7 +96,11 @@ const createTask = async (req, res, next) => {
       priority,
       dueDate: dueDate || null,
       status: status || 'pending',
+      projectName: req.user.projectName,
     });
+
+    const socketId = req.headers['x-socket-id'];
+    emitToProject(req.user.projectName, 'taskCreated', task, socketId);
 
     res.status(201).json({
       success: true,
@@ -99,7 +125,11 @@ const updateTask = async (req, res, next) => {
       });
     }
 
-    const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
+    const task = await Task.findOne({ 
+      _id: req.params.id, 
+      user: req.user._id,
+      projectName: req.user.projectName,
+    });
 
     if (!task) {
       return res.status(404).json({
@@ -119,6 +149,9 @@ const updateTask = async (req, res, next) => {
 
     await task.save();
 
+    const socketId = req.headers['x-socket-id'];
+    emitToProject(req.user.projectName, 'taskUpdated', task, socketId);
+
     res.json({
       success: true,
       message: 'Task updated successfully',
@@ -137,6 +170,7 @@ const deleteTask = async (req, res, next) => {
     const task = await Task.findOneAndDelete({
       _id: req.params.id,
       user: req.user._id,
+      projectName: req.user.projectName,
     });
 
     if (!task) {
@@ -145,6 +179,9 @@ const deleteTask = async (req, res, next) => {
         message: 'Task not found',
       });
     }
+
+    const socketId = req.headers['x-socket-id'];
+    emitToProject(req.user.projectName, 'taskDeleted', { taskId: req.params.id, title: task.title, status: task.status }, socketId);
 
     res.json({
       success: true,
@@ -161,7 +198,11 @@ const deleteTask = async (req, res, next) => {
 // @access  Private
 const toggleTask = async (req, res, next) => {
   try {
-    const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
+    const task = await Task.findOne({ 
+      _id: req.params.id, 
+      user: req.user._id,
+      projectName: req.user.projectName,
+    });
 
     if (!task) {
       return res.status(404).json({
@@ -172,6 +213,9 @@ const toggleTask = async (req, res, next) => {
 
     task.status = task.status === 'completed' ? 'pending' : 'completed';
     await task.save();
+
+    const socketId = req.headers['x-socket-id'];
+    emitToProject(req.user.projectName, 'taskToggled', task, socketId);
 
     res.json({
       success: true,

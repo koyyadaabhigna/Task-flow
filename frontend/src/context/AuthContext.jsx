@@ -56,8 +56,8 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const register = async (name, email, password) => {
-    const { data } = await api.post('/auth/register', { name, email, password });
+  const register = async (name, email, password, projectName) => {
+    const { data } = await api.post('/auth/register', { name, email, password, projectName });
     localStorage.setItem('taskflow_token', data.token);
     localStorage.setItem('taskflow_user', JSON.stringify(data.user));
     setUser(data.user);

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const Register = () => {
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [form, setForm] = useState({ name: '', email: '', projectName: '', password: '', confirmPassword: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -18,6 +18,8 @@ const Register = () => {
     else if (form.name.trim().length < 2) e.name = 'Name must be at least 2 characters';
     if (!form.email) e.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Invalid email address';
+    if (!form.projectName.trim()) e.projectName = 'Project name is required';
+    else if (form.projectName.trim().length < 2) e.projectName = 'Project name must be at least 2 characters';
     if (!form.password) e.password = 'Password is required';
     else if (form.password.length < 6) e.password = 'Password must be at least 6 characters';
     if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords do not match';
@@ -36,7 +38,7 @@ const Register = () => {
     if (!validate()) return;
     setLoading(true);
     try {
-      await register(form.name.trim(), form.email, form.password);
+      await register(form.name.trim(), form.email, form.password, form.projectName.trim());
       toast.success('Account created! Welcome to TaskFlow 🎉');
       navigate('/dashboard');
     } catch (err) {
@@ -55,7 +57,7 @@ const Register = () => {
   const strength = passwordStrength();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{backgroundColor: 'var(--bg-primary)'}}>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-1/3 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
@@ -72,8 +74,8 @@ const Register = () => {
               Task<span className="text-indigo-400">Flow</span>
             </span>
           </div>
-          <h1 className="font-display font-semibold text-2xl text-white mb-1">Create an account</h1>
-          <p className="text-slate-400 text-sm">Start managing your tasks for free</p>
+          <h1 className="font-display font-semibold text-2xl mb-1" style={{color: 'var(--text-primary)'}}>Create an account</h1>
+          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Start managing your tasks for free</p>
         </div>
 
         <div className="glass-card p-8">
@@ -106,6 +108,21 @@ const Register = () => {
                 autoComplete="email"
               />
               {errors.email && <p className="text-rose-400 text-xs mt-1">{errors.email}</p>}
+            </div>
+
+            {/* Project Name */}
+            <div>
+              <label className="label">Project Name</label>
+              <input
+                type="text"
+                name="projectName"
+                value={form.projectName}
+                onChange={handleChange}
+                placeholder="My Project"
+                className={`input-field ${errors.projectName ? 'border-rose-500' : ''}`}
+              />
+              <p className="text-slate-500 text-xs mt-1">All team members will join this project</p>
+              {errors.projectName && <p className="text-rose-400 text-xs mt-1">{errors.projectName}</p>}
             </div>
 
             {/* Password */}

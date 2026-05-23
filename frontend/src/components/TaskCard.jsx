@@ -3,10 +3,14 @@ import { Calendar, Trash2, Edit3, CheckCircle2, Circle } from 'lucide-react';
 import { format, isPast, isToday } from 'date-fns';
 import PriorityBadge from './PriorityBadge';
 import StatusBadge from './StatusBadge';
+import { useSocket } from '../context/SocketContext';
 
 const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
+  const { activeTyping } = useSocket();
   const [deleting, setDeleting] = useState(false);
   const [toggling, setToggling] = useState(false);
+
+  const typers = activeTyping[task._id] || [];
 
   const isCompleted = task.status === 'completed';
   const isOverdue = task.dueDate && isPast(new Date(task.dueDate)) && !isCompleted;
@@ -33,10 +37,12 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
 
   return (
     <div
-      className={`group glass-card p-5 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 ${
+      className={`group glass-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 ${
         isCompleted ? 'opacity-60' : ''
       }`}
       style={{
+        backgroundColor: 'var(--bg-card)',
+        borderColor: 'var(--border-color)',
         borderImage: isCompleted
           ? undefined
           : 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(34,211,238,0.1)) 1',
@@ -48,7 +54,8 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
         <button
           onClick={handleToggle}
           disabled={toggling}
-          className="mt-0.5 flex-shrink-0 text-slate-500 hover:text-indigo-400 transition-colors disabled:opacity-50"
+          className="mt-0.5 flex-shrink-0 transition-colors disabled:opacity-50"
+          style={{color: 'var(--text-muted)'}}
           title={isCompleted ? 'Mark as pending' : 'Mark as complete'}
         >
           {toggling ? (
@@ -64,13 +71,14 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
         <div className="flex-1 min-w-0">
           <h3
             className={`font-semibold text-sm leading-snug mb-1 ${
-              isCompleted ? 'line-through text-slate-500' : 'text-slate-100'
+              isCompleted ? 'line-through' : ''
             }`}
+            style={{color: isCompleted ? 'var(--text-muted)' : 'var(--text-primary)'}}
           >
             {task.title}
           </h3>
           {task.description && (
-            <p className="text-slate-400 text-xs leading-relaxed line-clamp-2">
+            <p className="text-xs leading-relaxed line-clamp-2" style={{color: 'var(--text-secondary)'}}>
               {task.description}
             </p>
           )}
@@ -80,7 +88,8 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
           <button
             onClick={() => onEdit(task)}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all"
+            className="p-1.5 rounded-lg hover:bg-indigo-500/10 transition-all"
+            style={{color: 'var(--text-muted)'}}
             title="Edit task"
           >
             <Edit3 size={14} />
@@ -88,7 +97,8 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all disabled:opacity-50"
+            className="p-1.5 rounded-lg hover:bg-rose-500/10 transition-all disabled:opacity-50"
+            style={{color: 'var(--text-muted)'}}
             title="Delete task"
           >
             {deleting ? (
@@ -112,8 +122,9 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
                 ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                 : isDueToday
                 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                : 'bg-void-700 text-slate-400 border-surface-border'
+                : 'border-opacity-50'
             }`}
+            style={!isOverdue && !isDueToday ? {backgroundColor: 'var(--bg-elevated)', color: 'var(--text-muted)', borderColor: 'var(--border-color)'} : {}}
           >
             <Calendar size={10} />
             {isOverdue ? 'Overdue · ' : isDueToday ? 'Today · ' : ''}
@@ -121,6 +132,16 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
           </span>
         )}
       </div>
+
+      {/* Typing Indicator */}
+      {typers.length > 0 && (
+        <div className="flex items-center gap-1.5 mt-3 pt-3 text-xs font-medium animate-pulse" style={{borderColor: 'var(--border-color)', color: '#6366f1'}}>
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+          <span>
+            {typers.join(', ')} {typers.length === 1 ? 'is' : 'are'} editing...
+          </span>
+        </div>
+      )}
     </div>
   );
 };

@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{backgroundColor: 'var(--bg-primary)'}}>
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
@@ -61,8 +61,8 @@ const Login = () => {
               Task<span className="text-indigo-400">Flow</span>
             </span>
           </div>
-          <h1 className="font-display font-semibold text-2xl text-white mb-1">Welcome back</h1>
-          <p className="text-slate-400 text-sm">Sign in to manage your tasks</p>
+          <h1 className="font-display font-semibold text-2xl mb-1" style={{color: 'var(--text-primary)'}}>Welcome back</h1>
+          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>Sign in to manage your tasks</p>
         </div>
 
         <div className="glass-card p-8">

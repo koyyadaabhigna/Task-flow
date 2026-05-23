@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema(
       minlength: [6, 'Password must be at least 6 characters'],
       select: false,
     },
+    projectName: {
+      type: String,
+      required: [true, 'Project name is required'],
+      trim: true,
+      minlength: [2, 'Project name must be at least 2 characters'],
+      maxlength: [100, 'Project name cannot exceed 100 characters'],
+      index: true,
+    },
   },
   { timestamps: true }
 );
