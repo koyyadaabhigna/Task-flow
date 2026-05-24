@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Plus, Search, SlidersHorizontal, LayoutGrid, List,
+  Plus, Search, SlidersHorizontal, LayoutGrid, Columns, List,
   CheckCircle2, Clock, Zap, BarChart3, X
 } from 'lucide-react';
+import KanbanBoard from '../components/KanbanBoard';
 import { useAuth } from '../context/AuthContext';
 import { useTasks } from '../hooks/useTasks';
 import TaskCard from '../components/TaskCard';
@@ -47,6 +48,11 @@ const Dashboard = () => {
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [view, setView] = useState(() => localStorage.getItem('taskflow_view') || 'grid');
+
+  useEffect(() => {
+    localStorage.setItem('taskflow_view', view);
+  }, [view]);
 
   // Debounce search
   useEffect(() => {
@@ -120,10 +126,21 @@ const Dashboard = () => {
             in-progress tasks
           </p>
         </div>
-        <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2 flex-shrink-0">
-          <Plus size={16} />
-          New Task
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="inline-flex items-center gap-2">
+            <button onClick={() => setView('grid')} title="Grid view" className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-indigo-500 text-white shadow-glow-indigo' : 'text-slate-400 hover:text-white'}`}>
+              <LayoutGrid size={16} />
+            </button>
+            <button onClick={() => setView('kanban')} title="Kanban view" className={`p-2 rounded-lg transition-colors ${view === 'kanban' ? 'bg-indigo-500 text-white shadow-glow-indigo' : 'text-slate-400 hover:text-white'}`}>
+              <Columns size={16} />
+            </button>
+          </div>
+
+          <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2 flex-shrink-0">
+            <Plus size={16} />
+            New Task
+          </button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -284,24 +301,38 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Task grid */}
-      {loading ? (
-        <TaskSkeletonGrid count={6} />
-      ) : tasks.length === 0 ? (
-        <EmptyState filtered={hasFilters} onAdd={handleOpenCreate} />
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
-          {tasks.map((task) => (
-            <TaskCard
-              key={task._id}
-              task={task}
-              onEdit={handleOpenEdit}
-              onDelete={handleDelete}
-              onToggle={handleToggle}
-            />
-          ))}
-        </div>
-      )}
+      {/* Task Views */}
+      <div className="animate-fade-in">
+        {view === 'grid' ? (
+          loading ? (
+            <TaskSkeletonGrid count={6} />
+          ) : tasks.length === 0 ? (
+            <EmptyState filtered={hasFilters} onAdd={handleOpenCreate} />
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {tasks.map((task) => (
+                <TaskCard
+                  key={task._id}
+                  task={task}
+                  onEdit={handleOpenEdit}
+                  onDelete={handleDelete}
+                  onToggle={handleToggle}
+                />
+              ))}
+            </div>
+          )
+        ) : (
+          <KanbanBoard
+            tasks={tasks}
+            loading={loading}
+            onEdit={handleOpenEdit}
+            onDelete={handleDelete}
+            onCreate={handleOpenCreate}
+            updateTask={updateTask}
+            fetchTasks={loadTasks}
+          />
+        )}
+      </div>
 
       {/* Task Modal */}
       <TaskModal

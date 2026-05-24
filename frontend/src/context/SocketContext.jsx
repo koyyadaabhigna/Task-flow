@@ -11,10 +11,10 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [onlineCount, setOnlineCount] = useState(1);
-  const [activeTyping, setActiveTyping] = useState({}); // taskId -> Array of user names
+  const [activeTyping, setActiveTyping] = useState({});
 
   useEffect(() => {
-    // If not authenticated, do not connect or clean up existing connection
+    // Only connect if user is logged in
     if (!user) {
       if (socket) {
         socket.disconnect();
@@ -26,78 +26,58 @@ export const SocketProvider = ({ children }) => {
     }
 
     const token = localStorage.getItem('taskflow_token');
-    
-    // Resolve Socket URL from VITE_API_URL or fallback
-    // e.g. 'http://localhost:5000/api' becomes 'http://localhost:5000'
     const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const socketUrl = backendUrl.replace('/api', '');
 
-    console.log(`🔌 Initializing WebSocket connection to: ${socketUrl}`);
+    console.log(`🔌 Connecting WebSocket to: ${socketUrl}`);
 
     const socketInstance = io(socketUrl, {
-      auth: {
-        token,
-      },
+      auth: { token },
       reconnection: true,
-      reconnectionAttempts: 10,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 2000,
+      reconnectionDelayMax: 10000,
       timeout: 20000,
+      // Don't connect automatically on auth pages
+      autoConnect: true,
     });
 
     socketInstance.on('connect', () => {
-      console.log(`⚡ Connected to WebSocket. Socket ID: ${socketInstance.id}`);
+      console.log(`⚡ WebSocket connected: ${socketInstance.id}`);
       setIsConnected(true);
-      
-      // Register socket ID globally with our Axios instance
       setApiSocketId(socketInstance.id);
     });
 
     socketInstance.on('disconnect', (reason) => {
       console.log(`⚡ WebSocket disconnected: ${reason}`);
       setIsConnected(false);
-      
-      // Clear socket ID from our Axios instance
       setApiSocketId(null);
-
       if (reason === 'io server disconnect') {
-        // The server disconnected us, attempt manual reconnect
         socketInstance.connect();
       }
     });
 
     socketInstance.on('connect_error', (err) => {
-      console.error('⚡ WebSocket connection error:', err.message);
+      // Only log — no toast for connection errors
+      // This prevents "Route not found" toast on auth pages
+      console.warn('⚡ WebSocket connection error:', err.message);
       setIsConnected(false);
       setApiSocketId(null);
-      
-      // Show descriptive toast for auth errors
-      if (err.message.includes('Authentication error')) {
-        toast.error('Real-time sync authentication failed');
-      }
     });
 
-    // Listen to online users count broadcast
     socketInstance.on('onlineUsersCount', (count) => {
       setOnlineCount(count);
     });
 
-    // Listen to user typing states
     socketInstance.on('userTyping', ({ userId, name, isTyping, taskId }) => {
       setActiveTyping((prev) => {
         const currentTypers = prev[taskId] || [];
         if (isTyping) {
           if (!currentTypers.includes(name)) {
-            return {
-              ...prev,
-              [taskId]: [...currentTypers, name],
-            };
+            return { ...prev, [taskId]: [...currentTypers, name] };
           }
         } else {
-          return {
-            ...prev,
-            [taskId]: currentTypers.filter((n) => n !== name),
-          };
+          return { ...prev, [taskId]: currentTypers.filter((n) => n !== name) };
         }
         return prev;
       });
@@ -105,19 +85,13 @@ export const SocketProvider = ({ children }) => {
 
     setSocket(socketInstance);
 
-    // Cleanup on unmount or user change
     return () => {
-      console.log('🔌 Cleaning up WebSocket connection...');
+      console.log('🔌 Cleaning up WebSocket...');
       socketInstance.disconnect();
       setApiSocketId(null);
     };
   }, [user]);
 
-  /**
-   * Send active typing status for a task
-   * @param {string} taskId - The ID of the task being edited
-   * @param {boolean} isTyping - Whether the user is actively typing
-   */
   const sendTypingStatus = (taskId, isTyping) => {
     if (socket && isConnected && taskId) {
       socket.emit('typing', { taskId, isTyping });

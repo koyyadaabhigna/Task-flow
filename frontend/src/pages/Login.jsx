@@ -120,6 +120,8 @@ const Login = () => {
                 'Sign In'
               )}
             </button>
+
+            {/* Forgot password link removed */}
           </form>
 
           <p className="text-center text-slate-400 text-sm mt-6" style={{color: 'var(--text-secondary)'}}>

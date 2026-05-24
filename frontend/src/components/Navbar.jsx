@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, CheckSquare, User, Menu, X, Moon, Sun } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { LogOut, CheckSquare, User, Menu, X, Moon, Sun, BarChart3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { useTheme } from '../context/ThemeContext';
@@ -11,7 +11,9 @@ const Navbar = () => {
   const { isConnected, onlineCount } = useSocket();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const analyticsActive = pathname === '/analytics';
 
   const handleLogout = () => {
     logout();
@@ -60,6 +62,14 @@ const Navbar = () => {
                 )}
               </div>
 
+              <Link
+                to="/analytics"
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium transition-all ${analyticsActive ? 'bg-indigo-500 text-white shadow-glow-indigo' : 'text-slate-400 hover:text-white hover:bg-indigo-500/10'}`}
+                style={{ borderColor: 'var(--border-color)' }}
+              >
+                <BarChart3 size={14} />
+                Analytics
+              </Link>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border" style={{backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)'}}>
                 <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 flex items-center justify-center">
                   <User size={12} style={{color: 'var(--accent-primary)'}} />
@@ -131,6 +141,15 @@ const Navbar = () => {
                 <span className="text-sm" style={{color: 'var(--text-secondary)'}}>{user.name}</span>
                 <span className="text-xs" style={{color: 'var(--text-muted)', marginLeft: 'auto'}}>{user.email}</span>
               </div>
+              <Link
+                to="/analytics"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-indigo-500/10 transition-all"
+                style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}
+              >
+                <BarChart3 size={14} />
+                Analytics
+              </Link>
 
               {/* Theme Toggle Button (Mobile) */}
               <button

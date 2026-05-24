@@ -201,3 +201,57 @@
 .toast-container {
   font-family: 'DM Sans', sans-serif !important;
 }
+
+/* Kanban styles */
+.kanban-board {
+  width: 100%;
+}
+
+.kanban-columns {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.kanban-column {
+  min-width: 280px;
+  flex: 1 0 320px;
+  max-height: 65vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+.kanban-column-body {
+  padding-top: 8px;
+}
+
+.kanban-column .kanban-card {
+  transition: transform 200ms ease, opacity 150ms ease;
+}
+
+@media (max-width: 640px) {
+  .kanban-columns {
+    flex-direction: column;
+  }
+  .kanban-column {
+    min-width: auto;
+    width: 100%;
+    max-height: none;
+  }
+}
+
+/* subtle fade-in */
+.animate-fade-in {
+  transition: opacity 220ms ease;
+}
+
+.kanban-card-dragging {
+  opacity: 0.6;
+}
