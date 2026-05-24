@@ -110,13 +110,13 @@ const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display font-bold text-2xl sm:text-3xl" style={{color: 'var(--text-primary)'}}>
-            {greeting}, <span className="text-indigo-400">{user?.name?.split(' ')[0]}</span> 👋
+            {greeting}, <span style={{color: 'var(--accent-primary)'}}>{user?.name?.split(' ')[0]}</span> 👋
           </h1>
           <p className="text-sm mt-1" style={{color: 'var(--text-secondary)'}}>
             You have{' '}
-            <span className="text-cyan-400 font-semibold">{stats.pending}</span>{' '}
+            <span style={{color: 'var(--accent-cyan)', fontWeight: 600}}>{stats.pending}</span>{' '}
             pending and{' '}
-            <span className="text-indigo-400 font-semibold">{stats.inProgress}</span>{' '}
+            <span style={{color: 'var(--accent-primary)', fontWeight: 600}}>{stats.inProgress}</span>{' '}
             in-progress tasks
           </p>
         </div>

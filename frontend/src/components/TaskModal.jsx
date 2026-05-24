@@ -147,7 +147,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, loading }) => {
             {errors.description && (
               <p className="text-rose-400 text-xs mt-1">{errors.description}</p>
             )}
-            <p className="text-slate-600 text-xs mt-1 text-right">
+            <p className="text-xs mt-1 text-right" style={{color: 'var(--text-secondary)'}}>
               {form.description.length}/1000
             </p>
           </div>

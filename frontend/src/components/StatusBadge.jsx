@@ -1,18 +1,25 @@
 const statusConfig = {
   pending: {
     label: 'Pending',
-    classes: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
-    dot: 'bg-slate-400',
+    bg: 'rgba(148,163,184,0.08)',
+    color: 'var(--text-secondary)',
+    border: 'rgba(148,163,184,0.12)',
+    dot: 'var(--text-secondary)',
   },
   'in-progress': {
     label: 'In Progress',
-    classes: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
-    dot: 'bg-indigo-400 animate-pulse',
+    bg: 'rgba(99,102,241,0.08)',
+    color: 'var(--accent-primary)',
+    border: 'rgba(99,102,241,0.12)',
+    dot: 'var(--accent-primary)',
+    pulse: true,
   },
   completed: {
     label: 'Completed',
-    classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    dot: 'bg-emerald-400',
+    bg: 'rgba(52,211,153,0.08)',
+    color: 'var(--emerald-400)',
+    border: 'rgba(52,211,153,0.12)',
+    dot: 'var(--emerald-400)',
   },
 };
 
@@ -21,9 +28,10 @@ const StatusBadge = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border ${config.classes}`}
+      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border`}
+      style={{backgroundColor: config.bg, color: config.color, borderColor: config.border}}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
+      <span className={`w-1.5 h-1.5 rounded-full`} style={{backgroundColor: config.dot, animation: config.pulse ? 'pulse 1.8s infinite' : 'none'}} />
       {config.label}
     </span>
   );

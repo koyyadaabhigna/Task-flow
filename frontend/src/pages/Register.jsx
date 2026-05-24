@@ -66,12 +66,12 @@ const Register = () => {
       <div className="w-full max-w-md relative animate-slide-up">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2.5 mb-4">
+            <div className="inline-flex items-center gap-2.5 mb-4">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center shadow-glow-indigo">
               <CheckSquare size={20} className="text-white" />
             </div>
-            <span className="font-display font-bold text-2xl text-white tracking-tight">
-              Task<span className="text-indigo-400">Flow</span>
+            <span className="font-display font-bold text-2xl tracking-tight" style={{color: 'var(--text-primary)'}}>
+              Task<span style={{color: 'var(--accent-primary)'}}>Flow</span>
             </span>
           </div>
           <h1 className="font-display font-semibold text-2xl mb-1" style={{color: 'var(--text-primary)'}}>Create an account</h1>
@@ -197,11 +197,12 @@ const Register = () => {
             </button>
           </form>
 
-          <p className="text-center text-slate-400 text-sm mt-6">
+          <p className="text-center text-slate-400 text-sm mt-6" style={{color: 'var(--text-secondary)'}}>
             Already have an account?{' '}
             <Link
               to="/login"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              className="font-medium transition-colors"
+              style={{color: 'var(--accent-primary)'}}
             >
               Sign in
             </Link>

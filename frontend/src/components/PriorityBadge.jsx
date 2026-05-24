@@ -1,23 +1,31 @@
 const priorityConfig = {
   low: {
     label: 'Low',
-    classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    dot: 'bg-emerald-400',
+    bg: 'rgba(52,211,153,0.08)',
+    color: 'var(--emerald-400)',
+    border: 'rgba(52,211,153,0.12)',
+    dot: 'var(--emerald-400)',
   },
   medium: {
     label: 'Medium',
-    classes: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-    dot: 'bg-cyan-400',
+    bg: 'rgba(6,182,212,0.08)',
+    color: 'var(--accent-cyan)',
+    border: 'rgba(6,182,212,0.12)',
+    dot: 'var(--accent-cyan)',
   },
   high: {
     label: 'High',
-    classes: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    dot: 'bg-amber-400',
+    bg: 'rgba(245,158,11,0.08)',
+    color: 'var(--amber-400)',
+    border: 'rgba(245,158,11,0.12)',
+    dot: 'var(--amber-400)',
   },
   urgent: {
     label: 'Urgent',
-    classes: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
-    dot: 'bg-rose-400',
+    bg: 'rgba(244,63,94,0.08)',
+    color: 'var(--accent-rose)',
+    border: 'rgba(244,63,94,0.12)',
+    dot: 'var(--accent-rose)',
   },
 };
 
@@ -27,9 +35,10 @@ const PriorityBadge = ({ priority, size = 'sm' }) => {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-medium rounded-full border ${config.classes} ${textSize}`}
+      className={`inline-flex items-center gap-1.5 font-medium rounded-full border ${textSize}`}
+      style={{backgroundColor: config.bg, color: config.color, borderColor: config.border}}
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
+      <span className="w-1.5 h-1.5 rounded-full" style={{backgroundColor: config.dot}} />
       {config.label}
     </span>
   );

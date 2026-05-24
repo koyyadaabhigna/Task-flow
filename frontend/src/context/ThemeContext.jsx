@@ -1,24 +1,39 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+
+const STORAGE_KEY = 'taskflow_theme';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    // Check localStorage for saved theme preference
-    const savedTheme = localStorage.getItem('taskflow_theme');
-    return savedTheme || 'dark';
-  });
+  const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
-    // Update document attribute for theme switching
-    document.documentElement.setAttribute('data-theme', theme);
-    // Persist theme preference
-    localStorage.setItem('taskflow_theme', theme);
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'light' || saved === 'dark') {
+        setTheme(saved);
+      } else {
+        setTheme('dark');
+      }
+    } catch (e) {
+      setTheme('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch (e) {
+      // ignore
+    }
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
-  };
+  const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -28,9 +43,10 @@ export const ThemeProvider = ({ children }) => {
 };
 
 export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within ThemeProvider');
-  }
-  return context;
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
+  return ctx;
 };
+
+export default ThemeContext;
+

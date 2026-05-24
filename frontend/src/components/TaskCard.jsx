@@ -135,7 +135,7 @@ const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
 
       {/* Typing Indicator */}
       {typers.length > 0 && (
-        <div className="flex items-center gap-1.5 mt-3 pt-3 text-xs font-medium animate-pulse" style={{borderColor: 'var(--border-color)', color: '#6366f1'}}>
+        <div className="flex items-center gap-1.5 mt-3 pt-3 text-xs font-medium animate-pulse" style={{borderColor: 'var(--border-color)', color: 'var(--accent-primary)'}}>
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
           <span>
             {typers.join(', ')} {typers.length === 1 ? 'is' : 'are'} editing...

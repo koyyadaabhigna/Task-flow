@@ -28,8 +28,8 @@ const Navbar = () => {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center shadow-glow-indigo group-hover:shadow-glow-cyan transition-all duration-300">
               <CheckSquare size={16} className="text-white" />
             </div>
-            <span className="font-display font-700 text-lg text-white tracking-tight">
-              Task<span className="text-indigo-400">Flow</span>
+            <span className="font-display font-700 text-lg tracking-tight" style={{color: 'var(--text-primary)'}}>
+              Task<span style={{color: 'var(--accent-primary)'}}>Flow</span>
             </span>
           </Link>
 
@@ -62,7 +62,7 @@ const Navbar = () => {
 
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border" style={{backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)'}}>
                 <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 flex items-center justify-center">
-                  <User size={12} className="text-indigo-400" />
+                  <User size={12} style={{color: 'var(--accent-primary)'}} />
                 </div>
                 <span className="text-sm font-medium" style={{color: 'var(--text-secondary)'}}>{user.name}</span>
               </div>
@@ -73,7 +73,7 @@ const Navbar = () => {
                 className="toggle-btn"
                 title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
               </button>
 
               <button
@@ -91,6 +91,7 @@ const Navbar = () => {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="sm:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-void-700 transition-colors"
+              style={{color: 'var(--text-secondary)'}}
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -126,7 +127,7 @@ const Navbar = () => {
               </div>
 
               <div className="flex items-center gap-2 px-3 py-2 rounded-xl border" style={{backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)'}}>
-                <User size={14} className="text-indigo-400" />
+                <User size={14} style={{color: 'var(--accent-primary)'}} />
                 <span className="text-sm" style={{color: 'var(--text-secondary)'}}>{user.name}</span>
                 <span className="text-xs" style={{color: 'var(--text-muted)', marginLeft: 'auto'}}>{user.email}</span>
               </div>
@@ -137,7 +138,7 @@ const Navbar = () => {
                 className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all text-sm font-medium w-full border"
                 style={{backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)'}}
               >
-                {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+                {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} />}
                 <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
               </button>
 
