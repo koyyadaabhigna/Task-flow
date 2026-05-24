@@ -49,7 +49,7 @@ app.get('/health', (req, res) => {
 
 // Root
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to TaskFlow API', version: '1.0.0' });
+  res.json({ message: 'Welcome to TaskFlow API', version: '1.0.1' });
 });
 
 // 404 handler
